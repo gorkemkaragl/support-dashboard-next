@@ -1,5 +1,6 @@
 import { SupportRequest } from "@/types";
 import { formatDate } from "@/utils/formatDate";
+import Link from "next/link";
 
 interface Props {
   requests: SupportRequest[];
@@ -93,11 +94,13 @@ export default function RequestTable({ requests, isLoading }: Props) {
                 {formatDate(req.createdAt)}
               </td>
 
-              {/* Detay Butonu (Şimdilik işlevsiz) */}
               <td className="px-6 py-4 text-right">
-                <button className="text-indigo-600 hover:text-indigo-900 font-medium">
+                <Link
+                  href={`/requests/${req.id}`} // Dinamik Adres: /requests/REQ-001
+                  className="text-indigo-600 hover:text-indigo-900 font-medium hover:underline"
+                >
                   Detay
-                </button>
+                </Link>
               </td>
             </tr>
           ))}

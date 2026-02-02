@@ -8,6 +8,7 @@ import { initialRequests } from '@/data/mockData';
 interface RequestContextType {
   requests: SupportRequest[]; // İsteklerin listesi
   isLoading: boolean;         // Veri yükleniyor mu?
+  updateRequest: (updatedReq: SupportRequest) => void;
 }
 
 // Boş bir context oluşturuyoruz
@@ -42,8 +43,18 @@ export const RequestProvider = ({ children }: { children: React.ReactNode }) => 
     }
   }, [requests, isLoading]);
 
+  // Bu fonksiyon, değişen tek bir satırı alır ve tüm listenin içinde onu bulup değiştirir.
+  const updateRequest = (updatedReq: SupportRequest) => {
+    setRequests((prevRequests) => 
+      prevRequests.map((req) => 
+        // Eğer ID eşleşiyorsa yenisiyle değiştir, eşleşmiyorsa eskisini koru
+        req.id === updatedReq.id ? updatedReq : req
+      )
+    );
+  };
+
   return (
-    <RequestContext.Provider value={{ requests, isLoading }}>
+    <RequestContext.Provider value={{ requests, isLoading, updateRequest }}>
       {children}
     </RequestContext.Provider>
   );
