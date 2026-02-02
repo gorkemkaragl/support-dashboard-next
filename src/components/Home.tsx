@@ -3,17 +3,18 @@
 import { useRequests } from '@/context/RequestContext';
 import { useRequestFilter } from '@/hooks/useRequestFilter';
 import RequestTable from '@/components/dashboard/RequestTable';
-import RequestFilters from '@/components/dashboard/RequestFilters'; 
+import RequestFilters from '@/components/dashboard/RequestFilters';
 
 export default function Home() {
   const { requests, isLoading } = useRequests();
   
-  // Hook bize hem verileri hem de değiştirme fonksiyonlarını (set...) veriyor
   const { 
     searchQuery, 
     setSearchQuery, 
     statusFilter, 
     setStatusFilter, 
+    showNeedsAttention,  
+    setShowNeedsAttention,
     filteredRequests 
   } = useRequestFilter(requests);
 
@@ -30,15 +31,24 @@ export default function Home() {
         </button>
       </div>
 
-      {/* State'i ve State değiştirici fonksiyonu prop olarak veriyoruz */}
       <RequestFilters 
         searchQuery={searchQuery}
         statusFilter={statusFilter}
+        showNeedsAttention={showNeedsAttention} 
         onSearchChange={setSearchQuery}
         onStatusChange={setStatusFilter}
+        onToggleAttention={setShowNeedsAttention} 
       />
 
-      <RequestTable requests={filteredRequests} isLoading={isLoading} />
+      {/* Eğer acil mod açıksa ve liste boşsa, kullanıcıya özel mesaj gösterebiliriz */}
+      {filteredRequests.length === 0 && showNeedsAttention ? (
+         <div className="text-center p-8 bg-green-50 rounded-lg border border-green-200 text-green-700">
+            Harika! İlgilenilmesi gereken acil bir kayıt yok. 🎉
+         </div>
+      ) : (
+        <RequestTable requests={filteredRequests} isLoading={isLoading} />
+      )}
+      
     </main>
   );
 }

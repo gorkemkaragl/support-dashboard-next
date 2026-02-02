@@ -1,16 +1,23 @@
 import { useState, useMemo } from 'react';
 import { SupportRequest, RequestStatus } from '@/types';
+import { checkNeedsAttention } from '@/utils/needsAttention'; 
 
 export function useRequestFilter(requests: SupportRequest[]) {
-  // Filtre State'leri
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<RequestStatus | 'All'>('All');
+  
+  const [showNeedsAttention, setShowNeedsAttention] = useState(false);
 
-  // Filtreleme Mantığı 
   const filteredRequests = useMemo(() => {
-    let result = [...requests]; // Orijinal veriyi koru 
+    let result = [...requests];
 
-    // Arama (Search)
+    // Önce "Needs Attention" filtresi (En öncelikli filtre)
+    if (showNeedsAttention) {
+      // Sadece checkNeedsAttention true dönenleri al
+      result = result.filter((r) => checkNeedsAttention(r).isCritical);
+    }
+
+    // Arama Filtresi
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       result = result.filter(
@@ -20,23 +27,24 @@ export function useRequestFilter(requests: SupportRequest[]) {
       );
     }
 
-    // Durum (Status)
-    if (statusFilter !== 'All') {
+    // Durum Filtresi (Eğer Needs Attention açık değilse çalışsın, yoksa çakışabilir)
+    if (!showNeedsAttention && statusFilter !== 'All') {
       result = result.filter((r) => r.status === statusFilter);
     }
 
-    // Sıralama (Sorting) - En yeni en üstte
+    // Sıralama
     result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
     return result;
-  }, [requests, searchQuery, statusFilter]);
+  }, [requests, searchQuery, statusFilter, showNeedsAttention]);
 
-  // Hook'u kullanan sayfaya bu değerleri ve fonksiyonları döndür
   return {
     searchQuery,
     setSearchQuery,
     statusFilter,
     setStatusFilter,
+    showNeedsAttention,    
+    setShowNeedsAttention, 
     filteredRequests,
   };
 }

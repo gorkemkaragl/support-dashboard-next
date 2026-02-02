@@ -1,4 +1,3 @@
-import React from "react";
 import { SupportRequest } from "@/types";
 import { formatDate } from "@/utils/formatDate";
 
