@@ -4,6 +4,7 @@ import { useRequests } from '@/context/RequestContext';
 import { useRequestFilter } from '@/hooks/useRequestFilter';
 import RequestTable from '@/components/dashboard/RequestTable';
 import RequestFilters from '@/components/dashboard/RequestFilters';
+import DashboardCharts from './dashboard/DashboardCharts';
 
 export default function Home() {
   const { requests, isLoading } = useRequests();
@@ -30,6 +31,11 @@ export default function Home() {
           + Yeni Talep
         </button>
       </div>
+
+{/* Veri varsa grafikleri göster */}
+      {!isLoading && requests.length > 0 && (
+         <DashboardCharts requests={requests} />
+      )}
 
       <RequestFilters 
         searchQuery={searchQuery}
