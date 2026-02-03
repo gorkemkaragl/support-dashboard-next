@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Support Queue Dashboard
 
-## Getting Started
+Bu proje, bir **Frontend Case Study** kapsamında geliştirilmiş; destek taleplerini izlemeyi, filtrelemeyi ve yönetmeyi sağlayan modern bir web uygulamasıdır.
 
-First, run the development server:
+Orijinal vaka analizinde Vue.js istenmiş olsa da, bu proje **öğrenme ve pratik yapma amacıyla Next.js (App Router) ve TypeScript** kullanılarak geliştirilmiştir.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+![Project Status](https://img.shields.io/badge/Status-Completed-success)
+![Tech Stack](https://img.shields.io/badge/Stack-Next.js_16_|_TypeScript_|_Tailwind-blue)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Özellikler
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Uygulama aşağıdaki temel gereksinimleri ve fazlasını karşılamaktadır:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* **📋 İstek Listesi:** Tüm destek taleplerini tablo görünümünde listeleme.
+* **🔍 Gelişmiş Filtreleme:** Başlık/Müşteri arama ve Duruma (Status) göre filtreleme.
+* **⚠️ Needs Attention (İlgi Bekleyenler):** Özel bir algoritma ile acil müdahale gerektiren kayıtları (Eski tarihli, yüksek öncelikli ve hareketsiz) tespit etme.
+* **📊 Görsel Özet:** Highcharts kullanılarak hazırlanan 3 farklı grafik (Durum, Öncelik, Zaman Çizelgesi).
+* **✏️ Detay ve Güncelleme:** Taleplerin detayını görüntüleme, Durum ve Öncelik bilgilerini değiştirme.
+* **💾 Veri Kalıcılığı (Persistence):** Yapılan değişiklikler `localStorage` üzerinde saklanır, sayfa yenilendiğinde kaybolmaz.
+* **📥 CSV Export:** Filtrelenmiş listeyi Excel/CSV formatında indirme.
 
-## Learn More
+## 🛠️ Kullanılan Teknolojiler
 
-To learn more about Next.js, take a look at the following resources:
+* **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
+* **Dil:** [TypeScript](https://www.typescriptlang.org/) (Tip güvenliği için)
+* **Stil:** [Tailwind CSS](https://tailwindcss.com/) (Hızlı ve responsive tasarım)
+* **Grafik:** [Highcharts](https://www.highcharts.com/) & `highcharts-react-official`
+* **State Yönetimi:** React Context API + Custom Hooks
+* **Veri:** Mock Data + LocalStorage Simulation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ⚙️ Kurulum ve Çalıştırma
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Projeyi yerel ortamınızda çalıştırmak için aşağıdaki adımları izleyin:
 
-## Deploy on Vercel
+1.  **Depoyu klonlayın (veya indirin):**
+    ```bash
+    git clone [https://github.com/kullaniciadi/support-dashboard.git](https://github.com/kullaniciadi/support-dashboard.git)
+    cd support-dashboard
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2.  **Bağımlılıkları yükleyin:**
+    ```bash
+    npm install
+    # veya
+    yarn install
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3.  **Geliştirme sunucusunu başlatın:**
+    ```bash
+    npm run dev
+    ```
+
+4.  Tarayıcınızda `http://localhost:3000` adresine gidin.
+
+## 📂 Proje Yapısı ve Kararlar
+
+Proje, **Clean Architecture** prensiplerine sadık kalarak, mantık (Logic) ve görünümü (UI) ayıracak şekilde yapılandırılmıştır.
