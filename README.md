@@ -21,7 +21,7 @@ Uygulama aşağıdaki temel gereksinimleri ve fazlasını karşılamaktadır:
 
 ## 🛠️ Kullanılan Teknolojiler
 
-* **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
+* **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
 * **Dil:** [TypeScript](https://www.typescriptlang.org/) (Tip güvenliği için)
 * **Stil:** [Tailwind CSS](https://tailwindcss.com/) (Hızlı ve responsive tasarım)
 * **Grafik:** [Highcharts](https://www.highcharts.com/) & `highcharts-react-official`
@@ -55,3 +55,18 @@ Projeyi yerel ortamınızda çalıştırmak için aşağıdaki adımları izleyi
 ## 📂 Proje Yapısı ve Kararlar
 
 Proje, **Clean Architecture** prensiplerine sadık kalarak, mantık (Logic) ve görünümü (UI) ayıracak şekilde yapılandırılmıştır.
+
+### 💡 Önemli Kararlar (Decisions)
+
+1.  **Custom Hooks Kullanımı:** Filtreleme, arama ve sıralama mantığı `components` içine gömülmek yerine `hooks/useRequestFilter` içine taşındı. Bu sayede UI bileşenleri sadeleşti ve mantık test edilebilir hale geldi.
+2.  **Veri Bütünlüğü (Data Integrity):** Case Study gereği, orijinal veri asla mutasyona uğratılmadı. `useMemo` kullanılarak orijinal listenin bir kopyası üzerinde filtreleme yapıldı.
+3.  **Needs Attention Algoritması:** "7 günden eski" ve "3 gündür hareketsiz" gibi kurallar `utils/needsAttention.ts` içinde saf bir fonksiyon olarak yazıldı. Bu, mantığın başka sayfalarda da tekrar kullanılabilmesini sağladı.
+
+## 🔮 Geliştirme Önerileri (Future Improvements)
+
+Ekstra zamanım olsaydı şunları eklerdim:
+
+* **Unit Tests:** Özellikle `needsAttention` ve filtreleme mantığı için Jest ile testler yazmak.
+* **Backend Entegrasyonu:** Mock data yerine gerçek bir API ve veritabanı (PostgreSQL + Prisma) bağlamak.
+* **Yorum Özelliği:** Detay sayfasında kullanıcıların metin yorumu ekleyebileceği bir alan oluşturmak.
+* **Pagination:** Liste çok uzadığında sayfalama sistemi eklemek.

@@ -6,7 +6,8 @@ import RequestTable from "@/components/dashboard/RequestTable";
 import RequestFilters from "@/components/dashboard/RequestFilters";
 import DashboardCharts from "./dashboard/DashboardCharts";
 import { exportToCsv } from "@/utils/exportToCsv";
-
+import { Button } from "./ui/button";
+import { toast } from "sonner"
 export default function Home() {
   const { requests, isLoading } = useRequests();
 
@@ -31,12 +32,15 @@ export default function Home() {
         </div>
 
         {/* CSV İndir Butonu */}
-        <button
-          onClick={() => exportToCsv(filteredRequests)}
-          className="px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 text-sm font-medium transition-colors shadow-sm flex items-center gap-2"
+        <Button
+          variant="link"
+          onClick={() => {
+            exportToCsv(filteredRequests);
+            toast.success('Excel dosyası indirildi!');
+          }}
         >
           📥 Excel / CSV İndir
-        </button>
+        </Button>
       </div>
 
       {/* Veri varsa grafikleri göster */}

@@ -1,21 +1,17 @@
-import { useState, useMemo } from 'react';
-import { SupportRequest, RequestStatus } from '@/types';
-import { checkNeedsAttention } from '@/utils/needsAttention'; 
+import { useState, useMemo } from "react";
+import { SupportRequest, RequestStatus } from "@/types";
+import { checkNeedsAttention } from "@/utils/needsAttention";
 
 export function useRequestFilter(requests: SupportRequest[]) {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<RequestStatus | 'All'>('All');
-  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<RequestStatus | "All">(
+    "All",
+  );
+
   const [showNeedsAttention, setShowNeedsAttention] = useState(false);
 
   const filteredRequests = useMemo(() => {
     let result = [...requests];
-
-    // Önce "Needs Attention" filtresi (En öncelikli filtre)
-    if (showNeedsAttention) {
-      // Sadece checkNeedsAttention true dönenleri al
-      result = result.filter((r) => checkNeedsAttention(r).isCritical);
-    }
 
     // Arama Filtresi
     if (searchQuery) {
@@ -23,17 +19,24 @@ export function useRequestFilter(requests: SupportRequest[]) {
       result = result.filter(
         (r) =>
           r.title.toLowerCase().includes(query) ||
-          r.customer.toLowerCase().includes(query)
+          r.customer.toLowerCase().includes(query),
       );
     }
 
+    if (showNeedsAttention) {
+      // Sadece checkNeedsAttention true dönenleri al
+      result = result.filter((r) => checkNeedsAttention(r).isCritical);
+    }
     // Durum Filtresi (Eğer Needs Attention açık değilse çalışsın, yoksa çakışabilir)
-    if (!showNeedsAttention && statusFilter !== 'All') {
+    if (!showNeedsAttention && statusFilter !== "All") {
       result = result.filter((r) => r.status === statusFilter);
     }
 
     // Sıralama
-    result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    result.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
 
     return result;
   }, [requests, searchQuery, statusFilter, showNeedsAttention]);
@@ -43,8 +46,8 @@ export function useRequestFilter(requests: SupportRequest[]) {
     setSearchQuery,
     statusFilter,
     setStatusFilter,
-    showNeedsAttention,    
-    setShowNeedsAttention, 
+    showNeedsAttention,
+    setShowNeedsAttention,
     filteredRequests,
   };
 }

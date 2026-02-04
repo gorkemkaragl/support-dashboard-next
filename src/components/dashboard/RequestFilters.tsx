@@ -1,13 +1,23 @@
+import React from 'react';
 import { RequestStatus } from '@/types';
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 interface Props {
   searchQuery: string;
   statusFilter: RequestStatus | 'All';
-  showNeedsAttention: boolean; 
-  
+  showNeedsAttention: boolean;
   onSearchChange: (value: string) => void;
   onStatusChange: (status: RequestStatus | 'All') => void;
-  onToggleAttention: (val: boolean) => void; 
+  onToggleAttention: (val: boolean) => void;
 }
 
 export default function RequestFilters({ 
@@ -19,53 +29,61 @@ export default function RequestFilters({
   onToggleAttention 
 }: Props) {
   return (
-    <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm mb-6 flex flex-col md:flex-row gap-4 items-end">
+    <div className="bg-white p-4 rounded-lg border shadow-sm mb-6 flex flex-col md:flex-row gap-4 items-end">
       
-      {/* Arama Kutusu */}
-      <div className="flex-1 w-full">
-        <label htmlFor="search" className="block text-xs font-medium text-gray-700 mb-1">Ara</label>
-        <input
-          id="search"
-          type="text"
+      {/* Arama Kutusu (Input) */}
+      <div className="flex-1 w-full space-y-2">
+        <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+          Ara
+        </label>
+        <Input
           placeholder="Başlık veya müşteri..."
-          className="w-full p-2 border border-gray-300 rounded-md text-sm"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}
-          disabled={showNeedsAttention} // Mod aktifken aramayı kapatabiliriz 
+          disabled={showNeedsAttention}
+          className="bg-white"
         />
       </div>
 
-      {/* Durum Filtresi */}
-      <div className="w-full md:w-64">
-        <label htmlFor="status" className="block text-xs font-medium text-gray-700 mb-1">Durum</label>
-        <select
-          id="status"
-          className="w-full p-2 border border-gray-300 rounded-md text-sm bg-white disabled:bg-gray-100 disabled:text-gray-400"
-          value={statusFilter}
-          onChange={(e) => onStatusChange(e.target.value as any)}
-          disabled={showNeedsAttention} // Mod aktifken diğer filtreyi kapat
+      {/* Durum Filtresi (Select) */}
+      <div className="w-full md:w-64 space-y-2">
+        <label className="text-sm font-medium leading-none">
+          Durum
+        </label>
+        <Select 
+          value={statusFilter} 
+          onValueChange={(val) => onStatusChange(val as any)}
+          disabled={showNeedsAttention}
         >
-          <option value="All">Tüm Durumlar</option>
-          <option value="New">New</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Waiting on Customer">Waiting on Customer</option>
-          <option value="Done">Done</option>
-        </select>
+          <SelectTrigger className="w-full bg-white">
+            <SelectValue placeholder="Durum Seç" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="All">Tüm Durumlar</SelectItem>
+            <SelectItem value="New">New</SelectItem>
+            <SelectItem value="In Progress">In Progress</SelectItem>
+            <SelectItem value="Waiting on Customer">Waiting on Customer</SelectItem>
+            <SelectItem value="Done">Done</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
-      {/* Needs Attention Toggle */}
+      {/* Needs Attention Toggle (Button) */}
       <div className="w-full md:w-auto">
-        <button
-          onClick={() => onToggleAttention(!showNeedsAttention)}
-          className={`w-full md:w-auto px-4 py-2 rounded-md text-sm font-bold transition-all border
-            ${showNeedsAttention 
-              ? 'bg-red-600 text-white border-red-700 shadow-inner' 
-              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50' 
-            }`}
-        >
-          {showNeedsAttention ? '🔥 Acil Modu Kapat' : '⚠️ İlgilenilmesi Gerekenler'}
-        </button>
-      </div>
+  <Button
+    onClick={() => onToggleAttention(!showNeedsAttention)}
+    className={`w-full md:w-auto font-medium flex items-center gap-2 transition cursor-pointer
+      ${
+        showNeedsAttention
+          ? "bg-red-300 text-black hover:bg-red-400"
+          : "text-black bg-background border border-input hover:bg-accent"
+      }
+    `}
+  >
+    <AlertTriangle className="h-4 w-4" />
+    {showNeedsAttention ? "Acil Kayıtlar Aktif" : "Acil Kayıtları Göster"}
+  </Button>
+</div>
     </div>
   );
 }
