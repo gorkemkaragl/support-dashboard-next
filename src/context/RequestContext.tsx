@@ -9,6 +9,7 @@ interface RequestContextType {
   requests: SupportRequest[]; // İsteklerin listesi
   isLoading: boolean;         // Veri yükleniyor mu?
   updateRequest: (updatedReq: SupportRequest) => void;
+  deleteRequest: (id: string) => void;
 }
 
 // Boş bir context oluşturuyoruz
@@ -53,8 +54,13 @@ export const RequestProvider = ({ children }: { children: React.ReactNode }) => 
     );
   };
 
+  const deleteRequest = (id: string) => {
+    // Verilen ID hariç diğerlerini filtrele ve yeni liste yap
+    setRequests((prevRequests) => prevRequests.filter((req) => req.id !== id));
+  };
+
   return (
-    <RequestContext.Provider value={{ requests, isLoading, updateRequest }}>
+    <RequestContext.Provider value={{ requests, isLoading, updateRequest, deleteRequest }}>
       {children}
     </RequestContext.Provider>
   );

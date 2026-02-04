@@ -1,6 +1,13 @@
 // Durumlar (Status) sabit olduğu için Union Type kullanıyoruz
 export type RequestStatus = 'New' | 'In Progress' | 'Waiting on Customer' | 'Done';
 
+export interface Comment {
+  id: string;
+  author: string;
+  content: string;
+  createdAt: string;
+}
+
 // Öncelikler (Priority) de sabit 
 export type RequestPriority = 'Low' | 'Medium' | 'High';
 
@@ -14,5 +21,6 @@ export interface SupportRequest {
   createdAt: string;       // ISO Date String 
   updatedAt: string;       // ISO Date String 
   lastCommentAt: string | null; // Son yorum tarihi (boş olabilir) 
-  tags: string[];          // Etiketler dizisi 
+  tags: string[];          // Etiketler dizisi
+  comments?: Comment[]; // soru işareti eski veriler patlamasın diye
 }
