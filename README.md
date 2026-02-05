@@ -21,7 +21,7 @@ Uygulama aşağıdaki temel gereksinimleri ve fazlasını karşılamaktadır:
 
 ## 🛠️ Kullanılan Teknolojiler
 
-* **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+* **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
 * **Dil:** [TypeScript](https://www.typescriptlang.org/) (Tip güvenliği için)
 * **Stil:** [Tailwind CSS](https://tailwindcss.com/) (Hızlı ve responsive tasarım)
 * **Grafik:** [Highcharts](https://www.highcharts.com/) & `highcharts-react-official`
